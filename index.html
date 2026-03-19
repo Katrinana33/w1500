@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel资料商城 - 自助下单</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <header>
+            <h1>📊 Excel资料商城</h1>
+            <p>精选实用表格模板，扫码自动发货</p>
+        </header>
+
+        <!-- 讲解视频 -->
+        <section class="video-guide" id="videoGuide" style="margin-bottom: 30px; padding: 20px; border: 1px solid #eee; border-radius: 10px; background: #fafafa;">
+            <h2 style="margin-bottom: 12px;">🎥 购买前请观看讲解视频</h2>
+            <p style="color: #d23d3d; font-weight: bold; margin-bottom: 12px;">
+                购买前请观看完整视频，电子资料不退不换，请确认信息后再购买。
+            </p>
+            <div style="max-width: 760px; margin: 0 auto;">
+                <video controls width="100%" style="border: 1px solid #ccc; border-radius: 8px;">
+                    <source src="guide-video.mp4" type="video/mp4">
+                    您的浏览器不支持 HTML5 视频，请使用现代浏览器打开或更新浏览器。
+                </video>
+            </div>
+        </section>
+
+        <!-- 商品列表 -->
+        <section class="products" id="products">
+            <!-- 商品卡片将通过JS动态生成 -->
+        </section>
+
+        <!-- 支付弹窗 -->
+        <div class="modal" id="paymentModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h2>扫码支付</h2>
+                <div class="payment-info">
+                    <p class="product-name" id="payProductName"></p>
+                    <p class="product-price">¥<span id="payPrice"></span></p>
+                </div>
+
+                <div class="payment-tabs">
+                    <button class="tab-btn active" onclick="switchTab('wechat', event)">微信支付</button>
+                    <button class="tab-btn" onclick="switchTab('alipay', event)">支付宝支付</button>
+                </div>
+
+                <div class="qr-container">
+                    <div class="qr-code" id="wechatQR">
+                        <!-- 微信收款码 -->
+                        <img src="qr-wechat.png" alt="微信收款码" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="qr-placeholder" style="display:none;">
+                            <p>请放置微信收款码图片</p>
+                            <p class="filename">qr-wechat.png</p>
+                        </div>
+                    </div>
+                    <div class="qr-code hidden" id="alipayQR">
+                        <!-- 支付宝收款码 -->
+                        <img src="qr-alipay.png" alt="支付宝收款码" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="qr-placeholder" style="display:none;">
+                            <p>请放置支付宝收款码图片</p>
+                            <p class="filename">qr-alipay.png</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-status">
+                    <p id="statusText">⏳ 等待支付...</p>
+                    <div class="loading-spinner" id="loadingSpinner"></div>
+                </div>
+
+                <button id="confirmPayBtn" onclick="manualConfirm()" style="background: linear-gradient(135deg, #07c160 0%, #05a050 100%); color: white; border: none; padding: 14px 40px; border-radius: 25px; font-size: 1rem; cursor: pointer; margin-top: 20px; display: none;">
+                    ✅ 我已完成支付
+                </button>
+
+                <p class="hint">支付完成后点击上方按钮获取下载链接</p>
+            </div>
+        </div>
+
+        <!-- 下载页面 -->
+        <div class="modal" id="downloadModal">
+            <div class="modal-content success">
+                <h2>🎉 支付成功！</h2>
+                <p class="success-text">感谢您的购买，请点击下方链接下载</p>
+
+                <div class="download-box">
+                    <h3>📦 百度网盘下载</h3>
+                    <div class="link-box">
+                        <input type="text" id="baiduLink" readonly value="https://pan.baidu.com/s/1xxxxx">
+                        <button onclick="copyLink()">复制链接</button>
+                    </div>
+                    <p class="extract-code">提取码：<span id="extractCode">abcd</span></p>
+                    <a href="https://pan.baidu.com/s/1xxxxx" target="_blank" class="download-btn">
+                        前往百度网盘下载
+                    </a>
+                </div>
+
+                <p class="support">如有问题请联系客服微信：your-wechat</p>
+                <button onclick="closeDownloadModal()" class="back-btn">返回商城</button>
+            </div>
+        </div>
+
+        <!-- 手动确认按钮（用于测试或手动确认支付） -->
+        <div class="admin-panel" id="adminPanel" style="display:none;">
+            <button onclick="manualConfirm()" class="confirm-btn">模拟支付成功</button>
+        </div>
+
+        <!-- 页脚 -->
+        <footer>
+            <p>© 2024 Excel资料商城 | 自助下单，自动发货</p>
+        </footer>
+    </div>
+
+    <!-- 按 Ctrl+Shift+A 显示模拟支付按钮 -->
+    <script>
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                document.getElementById('adminPanel').style.display = 'block';
+            }
+        });
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
